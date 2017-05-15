@@ -2,8 +2,13 @@ package com.tao.ml;
 
 import java.util.Arrays;
 
-public class LogisticRegress {
+import com.tao.ml.common.ActivationFunction;
+import com.tao.ml.common.sigmoid;
 
+public class LogisticRegress {
+	
+	ActivationFunction _af = new sigmoid();
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		double[][] data = {
@@ -14,10 +19,10 @@ public class LogisticRegress {
         };
 		float[] labels = {1,0,1,0};
 		LogisticRegress lr = new LogisticRegress();
+
 	    lr.train(data,labels, 0.01f, 3000, (short)1);
 	}
-	
-	
+		
 	public void train(double[][] datas,float[] labels, float step, int maxIt, short algorithm) {
 		//数量
 		int size = datas.length;
@@ -38,7 +43,7 @@ public class LogisticRegress {
 				double[] out = new double[size];
 				for(int s = 0; s < size; s++) {
 					double lire = innerProduct(w, datas[s]);
-					out[s] = sigmoid(lire);
+					out[s] = _af.calc(lire);
 				}
 				//梯度下降
 				for(int d = 0; d < dim; d++) {
@@ -46,7 +51,7 @@ public class LogisticRegress {
 					for(int s = 0; s < size; s++) {
 						sum  += (labels[s] - out[s]) * datas[s][d];
 					}
-					w[d] = w[d] + step * sum;
+					w[d] += step * sum;
 				}
 				System.out.println(Arrays.toString(w));
 			}
@@ -56,7 +61,7 @@ public class LogisticRegress {
 			for(int i = 0; i < maxIt; i++) {
 				for(int s = 0; s < size; s++) {
 					double lire = innerProduct(w, datas[s]);
-					double out = sigmoid(lire);
+					double out = _af.calc(lire);
 					double error = labels[s] - out;
 					for(int d = 0; d < dim; d++) {
 						w[d] += step * error * datas[s][d];
@@ -76,9 +81,4 @@ public class LogisticRegress {
 
 		return sum;
 	}
-
-	private double sigmoid(double src) {
-		return (float) (1.0 / (1 + Math.exp(-src)));
-	}
-
 }
