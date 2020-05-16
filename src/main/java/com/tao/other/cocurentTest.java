@@ -25,17 +25,7 @@ public class cocurentTest {
 			System.out.println(str);
 		}
 		
-		task task1 = new task();
-		task1.setTaskID(1223l);
-		task1.setName("ryr");
-		task1.setOther("et");
-		
-		task task2 = new task();
-		task2.setTaskID(123l);
-		task2.setName("hoho");
-		task2.setOther("hoho");
-		
-		System.out.println(task1.equals(task2));
+
 		
 	}
 
